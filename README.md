@@ -296,20 +296,11 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## 👩‍💻 Team
 
-| Name | Enrollment | Email |
-|---|---|---|
-| Nidhi Modi | CE-108 | modinidhi321@gmail.com |
-| Jiya Patel | CE-127 | jiya0603patel@gmail.com |
-
-**Course:** Advance Technology &nbsp;|&nbsp; **Lab Section:** B2 &nbsp;|&nbsp; **Instructor:** Ankit Sir
 
 ---
 
-## 📄 License
 
-This project is developed for academic purposes as part of the Advance Technology coursework.
 
 ---
 

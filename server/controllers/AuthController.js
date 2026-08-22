@@ -55,54 +55,54 @@ const registerUser = async (req, res) => {
 };
 
 
-//@desc    Login and receive a JWT
+// @desc    Login and receive a JWT
 // @route   POST /api/auth/login
 // @access  Public
-// const loginUser = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//
-//         if (!email || !password) {
-//             return res.status(400).json({ message: "email and password are required." });
-//         }
-//
-//         // Query the base User model — matches regardless of role
-//         // (Restaurant, EventOrganizer, NGO, or Admin)
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(401).json({ message: "Invalid email or password." });
-//         }
-//
-//         const isMatch = await bcrypt.compare(password, user.password);
-//         if (!isMatch) {
-//             return res.status(401).json({ message: "Invalid email or password." });
-//         }
-//
-//         // Only Admins can log in before verification — everyone else must
-//         // wait for admin approval first (R.1.2)
-//         if (user.role !== "Admin" && user.verificationStatus !== "Verified") {
-//             return res.status(403).json({
-//                 message: `Your account is currently "${user.verificationStatus}". Please wait for admin approval before logging in.`,
-//             });
-//         }
-//
-//         const token = generateToken(user._id, user.role);
-//
-//         res.status(200).json({
-//             token,
-//             user: {
-//                 id: user._id,
-//                 name: user.name,
-//                 email: user.email,
-//                 role: user.role,
-//             },
-//         });
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// };
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "email and password are required." });
+        }
+
+        // Query the base User model — matches regardless of role
+        // (Restaurant, EventOrganizer, NGO, or Admin)
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password." });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid email or password." });
+        }
+
+        // Only Admins can log in before verification — everyone else must
+        // wait for admin approval first (R.1.2)
+        if (user.role !== "Admin" && user.verificationStatus !== "Verified") {
+            return res.status(403).json({
+                message: `Your account is currently "${user.verificationStatus}". Please wait for admin approval before logging in.`,
+            });
+        }
+
+        const token = generateToken(user._id, user.role);
+
+        res.status(200).json({
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 
 module.exports = {
     registerUser,
-    //loginUser,
+    loginUser,
 };

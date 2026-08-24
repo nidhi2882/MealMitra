@@ -101,39 +101,8 @@ const loginUser = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-// // @desc    Update profile fields (phone, address, etc.) — NOT password/email/role
-// // @route   PUT /api/auth/profile
-// // @access  Private (requires valid JWT — see authMiddleware.protect)
-//
-// const updateProfile = async (req, res) => {
-//     try {
-//         const updates = { ...req.body };
-//
-//         // Block sensitive fields from being changed through this route,
-//         // even if someone tries to sneak them into the request body.
-//         delete updates.password;
-//         delete updates.email;
-//         delete updates.role;
-//         delete updates.verificationStatus;
-//
-//
-//         const updatedUser = await User.findByIdAndUpdate(req.user._id, updates, {
-//             new: true,           // return the document AFTER the update, not before
-//             runValidators: true, // still enforce schema rules (e.g. required fields)
-//         }).select("-password");
-//
-//         res.status(200).json({ message: "Profile updated successfully" });
-//     } catch (err) {
-//         res.status(400).json({ message: err.message });
-//     }
-// };
-//
-// const logoutUser = async (req,res) =>{
-//     res.status(200).json({message:"Logged Out Successfully"});
-// }
+
 module.exports = {
     registerUser,
     loginUser,
-    // updateProfile,
-    // logoutUser,
 };

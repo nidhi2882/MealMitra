@@ -120,8 +120,38 @@ const getMe = async (req, res) => {
     }
 };
 
+const updateProfile = async (req, res) => {
+    try {
+        const updates = { ...req.body };
+        delete updates.password;
+        delete updates.email;
+        delete updates.role;
+        delete updates.verificationStatus;
+
+        await User.findByIdAndUpdate(req.user._id, updates, {
+            new: true,
+            runValidators: true,
+        }).select("-password");
+
+        res.status(200).json({ message: "Profile updated successfully" });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+const logoutUser = async (req, res) => {
+    // JWT is stateless — there's nothing to delete server-side.
+    // This endpoint exists so the client has a clear, RESTful action to call;
+    // the actual "logout" happens on the frontend by discarding the stored token.
+    res.status(200).json({ message: "Logged out successfully" });
+};
+
+
+
 module.exports = {
     registerUser,
     loginUser,
     getMe,
+    updateProfile,
+    logoutUser,
 };

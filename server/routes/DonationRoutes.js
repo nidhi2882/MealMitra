@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
+    browseDonations,
     createDonation,
     updateDonation,
     deleteDonation,
@@ -24,5 +25,8 @@ router.delete("/:id", protect, authorize(...DONOR_ROLES), deleteDonation);
 
 // Any authenticated user (Restaurant, EventOrganizer, NGO, Admin) can view a single donation
 router.get("/:id", protect, getDonationById);
+// GET "/" (exact root) is a separate path from "/:id", so order relative to
+// those doesn't matter — but it's kept near the top for readability.
+router.get("/", protect, authorize("NGO"), browseDonations);
 
 module.exports = router;

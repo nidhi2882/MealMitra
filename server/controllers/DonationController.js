@@ -4,7 +4,39 @@ const Donation = require("../models/Donation");
 
 const DONOR_ROLES = ["Restaurant","EventOrganizer"];
 
+// @desc    Browse/filter all AVAILABLE donations
+// @route   GET /api/donations
+// @route   GET /api/donations?foodType=Cooked Meal
+// @route   GET /api/donations?location=Ahmedabad
+// @route   GET /api/donations?minQuantity=5
+// @route   GET /api/donations?expiryBefore=2026-09-01T00:00:00Z
+// @access  Private (NGO only)
+const browseDonations = async(req,res) =>{
+    try {
+        const filter = {status: "Available"};
+        if (req.query.foodType) {
+            // "cooked" matches "Cooked Meal"
+            filter.foodType = new RegExp(req.query.foodType, "i");
+        }
+        if (req.query.location) {
+            filter.pickupAddress = new RegExp(req.query.location, "i");
+        }
+        if (req.query.minQuantity) {
+            filter.quantity = {$gte: Number(req.query.minQuantity)};
+        }
+        if (req.query.expiryBefore) {
+            filter.expiryTime = {$lte: new Date(req.query.expiryBefore)};
+        }
+        const donations = await Donation.find(filter)
+            .populate("donorId", "name role organizationName location") // show who's donating, without exposing password etc.
+            .sort({expiryTime: 1}); // soonest-expiring first — most urgent to pick up
 
+        res.status(200).json(donations);
+    }catch (err){
+        res.status(500).json({message:err.message});
+
+    }
+};
 // @desc    Create a new food donation listing
 // @route   POST /api/donations
 // @access  Private (Restaurant / EventOrganizer only)
@@ -133,6 +165,7 @@ const getDonationById = async (req, res) => {
 };
 
 module.exports = {
+    browseDonations,
     createDonation,
     updateDonation,
     deleteDonation,

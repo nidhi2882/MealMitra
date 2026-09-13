@@ -9,6 +9,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const donationRoutes = require("./routes/DonationRoutes");
 const pickupRoutes = require("./routes/PickupRoutes");
 const historyRoutes = require("./routes/HistoryRoutes");
+const notificationRoutes = require("./routes/NotificationRoutes");
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/donation", donationRoutes);
 app.use("/api/pickups", pickupRoutes);
 app.use("/api/history", historyRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

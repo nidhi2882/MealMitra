@@ -129,10 +129,97 @@ const respondToPickupRequest = async (req, res) => {
     }
 };
 
+// @desc    Update the status of an accepted pickup (e.g., Picked Up, Completed)
+// @route   PUT /api/pickups/:id/status
+// @access  Private (Restaurant / NGO — must be party to this pickup)
+
+// Only forward-lifecycle values are allowed here — Accepted/Rejected are
+// set via respondToPickupRequest, not this endpoint.
+const PICKUP_STATUS_FLOW = ["Picked Up", "Completed"];
+
+const updatePickupStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({ message: "status is required." });
+        }
+
+        if (!PICKUP_STATUS_FLOW.includes(status)) {
+            return res.status(400).json({
+                message: `Invalid status "${status}". Must be one of: ${PICKUP_STATUS_FLOW.join(", ")}.`,
+            });
+        }
+
+        const pickupRequest = await PickupRequest.findById(req.params.id).populate("donationId");
+        if (!pickupRequest) {
+            return res.status(404).json({ message: "Pickup request not found." });
+        }
+
+        const donation = pickupRequest.donationId;
+        if (!donation) {
+            return res.status(404).json({ message: "The associated donation no longer exists." });
+        }
+
+        // Only the requesting NGO or the donor who owns the donation can update it
+        const isNGO = pickupRequest.ngoId.toString() === req.user._id.toString();
+        const isDonor = donation.donorId.toString() === req.user._id.toString();
+
+        if (!isNGO && !isDonor) {
+            return res.status(403).json({ message: "You are not authorized to update this pickup." });
+        }
+
+        // Must already be Accepted before it can move to Picked Up
+        if (status === "Picked Up" && pickupRequest.status !== "Accepted") {
+            return res.status(400).json({
+                message: `Cannot mark as "Picked Up" — request is currently "${pickupRequest.status}".`,
+            });
+        }
+
+        // Must already be Picked Up before it can move to Completed
+        if (status === "Completed" && pickupRequest.status !== "Picked Up") {
+            return res.status(400).json({
+                message: `Cannot mark as "Completed" — request is currently "${pickupRequest.status}".`,
+            });
+        }
+
+        pickupRequest.status = status;
+        await pickupRequest.save();
+
+        // Keep Donation status in sync
+        donation.status = status;
+        await donation.save();
+
+        res.status(200).json({ message: `Pickup status updated to ${status}` });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+// @desc    Get full details of a single pickup request by ID
+// @route   GET /api/pickups/:id
+// @access  Private (Authenticated — any logged-in user)
+const getPickupById = async (req, res) => {
+    try {
+        const pickupRequest = await PickupRequest.findById(req.params.id)
+            .populate("donationId")
+            .populate("ngoId", "name email ngoName phone");
+
+        if (!pickupRequest) {
+            return res.status(404).json({ message: "Pickup request not found." });
+        }
+
+        res.status(200).json(pickupRequest);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createPickupRequest,
     getMyPickupRequests,
     getIncomingRequests,
     respondToPickupRequest,
+    updatePickupStatus,
+    getPickupById,
 };
-

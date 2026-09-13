@@ -19,7 +19,7 @@ app.get("/", (req, res) => res.send("MealMitra API is running..."));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/donation",donationRoutes);
+app.use("/api/donation", donationRoutes);
 app.use("/api/pickups", pickupRoutes);
 
 const PORT = process.env.PORT || 5000;

@@ -4,13 +4,12 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
-const authRoutes = require("./routes/authRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+const authRoutes = require("./routes/Authroutes");
+const adminRoutes = require("./routes/AdminRoutes");
 const donationRoutes = require("./routes/DonationRoutes");
 const pickupRoutes = require("./routes/PickupRoutes");
 const historyRoutes = require("./routes/HistoryRoutes");
 const notificationRoutes = require("./routes/NotificationRoutes");
-
 
 const app = express();
 app.use(cors());
@@ -22,7 +21,7 @@ app.get("/", (req, res) => res.send("MealMitra API is running..."));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/donation", donationRoutes);
+app.use("/api/donations", donationRoutes);
 app.use("/api/pickups", pickupRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/notifications", notificationRoutes);

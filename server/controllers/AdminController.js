@@ -6,7 +6,7 @@ const PickupRequest = require("../models/PickupRequest");
 // @route   GET /api/admin/users?role=Restaurant
 // @route   GET /api/admin/users?verificationStatus=Pending
 // @access  Private (Admin only)
-const getAllUsers = async(req,res) =>{
+const getAllUsers = async (req, res) => {
     try {
         const filter = {};
         if (req.query.role) {
@@ -15,10 +15,10 @@ const getAllUsers = async(req,res) =>{
         if (req.query.verificationStatus) {
             filter.verificationStatus = req.query.verificationStatus;
         }
-        const users = await User.find(filter).select("-password").sort({createdAt: -1});
+        const users = await User.find(filter).select("-password").sort({ createdAt: -1 });
         res.status(200).json(users);
-    }catch (err){
-        res.status(500).json({message: err.message});
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -38,29 +38,29 @@ const getPendingUsers = async (req, res) => {
     }
 };
 
-const verifyUser = async (req,res) =>{
-    try{
-        const {decision,remarks} =req.body;
-        if(!["Verified","Rejected"].includes(decision)){
+const verifyUser = async (req, res) => {
+    try {
+        const { decision, remarks } = req.body;
+        if (!["Verified", "Rejected"].includes(decision)) {
             return res.status(400).json({
                 message: 'decision is required and must be exactly "Verified" or "Rejected".',
             });
         }
         const user = await User.findById(req.params.id);
-        if(!user){
-            return res.status(404).json({message:"User Not Found"});
+        if (!user) {
+            return res.status(404).json({ message: "User Not Found" });
         }
-        if(user.role === "Admin"){
-            return res.status(400).json({message:"Admin accounts cannot be verified/rejected"});
+        if (user.role === "Admin") {
+            return res.status(400).json({ message: "Admin accounts cannot be verified/rejected" });
         }
         user.verificationStatus = decision;
-        if(remarks){
+        if (remarks) {
             user.verificationRemarks = remarks;
         }
         await user.save();
         //Add notification
         res.status(200).json({ message: `User status updated to ${decision}` });
-    }catch (err) {
+    } catch (err) {
         res.status(400).json({ message: err.message });
     }
 }
@@ -68,11 +68,11 @@ const verifyUser = async (req,res) =>{
 // @desc    Soft-delete a user account (does NOT physically remove the document)
 // @route   DELETE /api/admin/users/:id
 // @access  Private (Admin only)
-const deleteUser = async (req,res) =>{
-    try{
+const deleteUser = async (req, res) => {
+    try {
         const user = await User.findById(req.params.id);
-        if(!user){
-            return res.status(404).json({message: "User not found"});
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
         }
         if (user.role === "Admin") {
             return res.status(400).json({ message: "Admin accounts cannot be deleted through this endpoint." });
@@ -85,7 +85,7 @@ const deleteUser = async (req,res) =>{
         user.deletedBy = req.user_id;
 
         await user.save();
-    }catch(err){
+    } catch (err) {
         res.status(400).json({ message: err.message });
     }
 }

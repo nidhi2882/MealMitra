@@ -1,11 +1,18 @@
-import React from "react";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/common/Navbar";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-2xl font-bold">MealMitra 🍲</h1>
-    </div>
-  );
+    return (
+        <AuthProvider>
+            <div className="min-h-screen bg-background font-sans">
+                <Navbar />
+                <main>
+                    <AppRoutes />
+                </main>
+            </div>
+        </AuthProvider>
+    );
 }
 
 export default App;

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import NotificationBell from "../notification/NotificationBell";
 
 // Each role sees a different set of nav links, since a Restaurant and an
 // NGO have almost nothing in common in what they need quick access to.
@@ -59,7 +60,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>
-                            {/* NOTIFICATION_BELL_SLOT — Jiya: mount <NotificationBell /> here (Topic 7) */}
+                            <NotificationBell />
                             <Link
                                 to="/profile"
                                 className="text-sm text-ink/70 hover:text-ink transition-colors hidden sm:inline"

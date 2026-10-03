@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NotificationBell from "../notification/NotificationBell";
 
@@ -29,6 +29,7 @@ const roleLinks = {
 export default function Navbar() {
     const { user, logout, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = async () => {
         await logout();
@@ -38,25 +39,39 @@ export default function Navbar() {
     const links = user ? roleLinks[user.role] || [] : [];
 
     return (
-        <header className="border-b border-line bg-background sticky top-0 z-10">
+        <header className="border-b border-line bg-background sticky top-0 z-50">
             <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
                 <Link to="/" className="font-display text-xl font-semibold text-ink tracking-tight">
                     MealMitra
                 </Link>
 
-                {isAuthenticated && (
-                    <nav className="hidden sm:flex items-center gap-6">
-                        {links.map((link) => (
-                            <Link
-                                key={link.to}
-                                to={link.to}
-                                className="text-sm font-medium text-ink/70 hover:text-ink transition-colors"
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
-                )}
+                <div className="flex items-center gap-8">
+                    {/* Public Links (Visible only on Home page) */}
+                    {location.pathname === "/" && (
+                        <nav className="hidden md:flex items-center gap-6">
+                            <a href="/#about" className="text-sm font-medium text-ink/70 hover:text-ink transition-colors">
+                                About Us
+                            </a>
+                            <a href="/#how-it-works" className="text-sm font-medium text-ink/70 hover:text-ink transition-colors">
+                                How It Works
+                            </a>
+                        </nav>
+                    )}
+
+                    {isAuthenticated && (
+                        <nav className="hidden sm:flex items-center gap-6 border-l border-line pl-6">
+                            {links.map((link) => (
+                                <Link
+                                    key={link.to}
+                                    to={link.to}
+                                    className="text-sm font-medium text-ink/70 hover:text-ink transition-colors"
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </nav>
+                    )}
+                </div>
 
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (

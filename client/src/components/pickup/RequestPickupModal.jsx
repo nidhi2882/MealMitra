@@ -7,6 +7,15 @@ export default function RequestPickupModal({ donation, onClose, onSuccess }) {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
+    // Calculate local timezone offset for datetime-local input
+    const toLocalISOString = (date) => {
+        const d = new Date(date);
+        return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    };
+
+    const localMin = toLocalISOString(new Date());
+    const localMax = donation.expiryTime ? toLocalISOString(donation.expiryTime) : undefined;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -40,7 +49,8 @@ export default function RequestPickupModal({ donation, onClose, onSuccess }) {
                             type="datetime-local"
                             value={pickupTime}
                             onChange={(e) => setPickupTime(e.target.value)}
-                            max={donation.expiryTime ? new Date(donation.expiryTime).toISOString().slice(0, 16) : undefined}
+                            min={localMin}
+                            max={localMax}
                         />
                     </label>
 

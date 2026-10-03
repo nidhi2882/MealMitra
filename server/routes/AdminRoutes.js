@@ -12,6 +12,7 @@ const {
     getSummaryReport,
     getDonationReport,
     getUserReport,
+    generatePDFReport,
 } = require("../controllers/adminController");
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/Rolemiddleware");
@@ -30,5 +31,6 @@ router.delete("/donations/:id", protect, authorize("Admin"), removeDonation);
 router.get("/reports/summary", protect, authorize("Admin"), getSummaryReport);
 router.get("/reports/donations", protect, authorize("Admin"), getDonationReport);
 router.get("/reports/users", protect, authorize("Admin"), getUserReport);
+router.get("/reports/pdf", protect, authorize("Admin"), generatePDFReport);
 
 module.exports = router;

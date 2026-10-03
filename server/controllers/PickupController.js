@@ -1,13 +1,14 @@
+const asyncHandler = require("express-async-handler");
 const PickupRequest = require("../models/PickupRequest");
 const Donation = require("../models/Donation");
+const Notification = require("../models/Notification");
 const { DONOR_ROLES } = require("./DonationController");
 
 // @description    NGO sends a pickup request for an available donation
 // @route   POST /api/pickups
 // @access  Private (NGO only)
 
-const createPickupRequest = async (req,res) =>{
-    try{
+const createPickupRequest = asyncHandler(async (req,res) => {
         const {donationId,note,pickupTime} = req.body;
         if(!donationId){
             return res.status(400).json({message:"donationId is required"});
@@ -33,7 +34,11 @@ const createPickupRequest = async (req,res) =>{
         donation.status = "Requested";
         await donation.save();
 
-        //add notification
+        // Notify the donor
+        await Notification.create({
+            userId: donation.donorId,
+            message: `A new pickup request has been made for your donation: ${donation.foodName}.`
+        });
 
         res.status(201).json({
             message: "Pickup request submitted successfully",
@@ -41,31 +46,23 @@ const createPickupRequest = async (req,res) =>{
             status: pickupRequest.status,
         });
 
-    }catch(err){
-        res.status(400).json({message:err.message});
-    }
-};
+    });
 
 // @desc    Get all pickup requests the logged-in NGO has sent
 // @route   GET /api/pickups/my-requests
 // @access  Private (NGO only)
-const getMyPickupRequests = async(req,res) =>{
-    try{
+const getMyPickupRequests = asyncHandler(async (req,res) => {
         const requests = await PickupRequest.find({ ngoId: req.user._id })
             .populate("donationId")
             .sort({ createdAt: -1 });
         res.status(200).json(requests);
-    }catch(err){
-        res.status(400).json({message:err.message});
-    }
-};
+    });
 
 // @desc    Get all pickup requests received for the logged-in donor's donations
 // @route   GET /api/pickups/incoming
 // @access  Private (Restaurant / EventOrganizer only)
 
-const getIncomingRequests = async (req, res) => {
-    try {
+const getIncomingRequests = asyncHandler(async (req, res) => {
         const myDonations = await Donation.find({ donorId: req.user._id }).select("_id");
         const myDonationIds = myDonations.map((d) => d._id);
 
@@ -75,16 +72,12 @@ const getIncomingRequests = async (req, res) => {
             .sort({ createdAt: -1 });
 
         res.status(200).json(requests);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Donor accepts or rejects an incoming pickup request
 // @route   PUT /api/pickups/:id/respond
 // @access  Private (Restaurant / EventOrganizer — must own the underlying donation)
-const respondToPickupRequest = async (req, res) => {
-    try {
+const respondToPickupRequest = asyncHandler(async (req, res) => {
         const { decision } = req.body;
         if (!["Accepted", "Rejected"].includes(decision)) {
             return res.status(400).json({
@@ -121,13 +114,14 @@ const respondToPickupRequest = async (req, res) => {
         donation.status = decision === "Accepted" ? "Accepted" : "Available"; // rejected -> reopen for other NGOs
         await donation.save();
 
-        // TODO (Notifications topic): notify the requesting NGO of the decision
+        // Notify the requesting NGO of the decision
+        await Notification.create({
+            userId: pickupRequest.ngoId,
+            message: `Your pickup request for "${donation.foodName}" was ${decision}.`
+        });
 
         res.status(200).json({ message: `Pickup request ${decision}` });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Update the status of an accepted pickup (e.g., Picked Up, Completed)
 // @route   PUT /api/pickups/:id/status
@@ -137,8 +131,7 @@ const respondToPickupRequest = async (req, res) => {
 // set via respondToPickupRequest, not this endpoint.
 const PICKUP_STATUS_FLOW = ["Picked Up", "Completed"];
 
-const updatePickupStatus = async (req, res) => {
-    try {
+const updatePickupStatus = asyncHandler(async (req, res) => {
         const { status } = req.body;
 
         if (!status) {
@@ -191,16 +184,12 @@ const updatePickupStatus = async (req, res) => {
         await donation.save();
 
         res.status(200).json({ message: `Pickup status updated to ${status}` });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Get full details of a single pickup request by ID
 // @route   GET /api/pickups/:id
 // @access  Private (Authenticated — any logged-in user)
-const getPickupById = async (req, res) => {
-    try {
+const getPickupById = asyncHandler(async (req, res) => {
         const pickupRequest = await PickupRequest.findById(req.params.id)
             .populate("donationId")
             .populate("ngoId", "name email ngoName phone");
@@ -210,10 +199,7 @@ const getPickupById = async (req, res) => {
         }
 
         res.status(200).json(pickupRequest);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 module.exports = {
     createPickupRequest,

@@ -1,3 +1,4 @@
+const asyncHandler = require("express-async-handler");
 const Donation = require("../models/Donation");
 
 //Only restaurants and donors can create/manage donations
@@ -11,9 +12,11 @@ const DONOR_ROLES = ["Restaurant","EventOrganizer"];
 // @route   GET /api/donations?minQuantity=5
 // @route   GET /api/donations?expiryBefore=2026-09-01T00:00:00Z
 // @access  Private (NGO only)
-const browseDonations = async(req,res) =>{
-    try {
-        const filter = {status: "Available"};
+const browseDonations = asyncHandler(async (req,res) => {
+        const filter = {
+            status: "Available",
+            expiryTime: { $gt: new Date() } // Only show donations that haven't expired yet
+        };
         if (req.query.foodType) {
             // "cooked" matches "Cooked Meal"
             filter.foodType = new RegExp(req.query.foodType, "i");
@@ -25,23 +28,18 @@ const browseDonations = async(req,res) =>{
             filter.quantity = {$gte: Number(req.query.minQuantity)};
         }
         if (req.query.expiryBefore) {
-            filter.expiryTime = {$lte: new Date(req.query.expiryBefore)};
+            filter.expiryTime.$lte = new Date(req.query.expiryBefore);
         }
         const donations = await Donation.find(filter)
             .populate("donorId", "name role organizationName location") // show who's donating, without exposing password etc.
             .sort({expiryTime: 1}); // soonest-expiring first — most urgent to pick up
 
         res.status(200).json(donations);
-    }catch (err){
-        res.status(500).json({message:err.message});
-
-    }
-};
+    });
 // @desc    Create a new food donation listing
 // @route   POST /api/donations
 // @access  Private (Restaurant / EventOrganizer only)
-const createDonation = async(req,res) =>{
-    try{
+const createDonation = asyncHandler(async (req,res) => {
         const {foodName,foodType,quantity,description,expiryTime,pickupAddress} = req.body;
         if(!foodName || !foodType || !quantity || !expiryTime || !pickupAddress){
             return res.status(400).json({
@@ -66,15 +64,11 @@ const createDonation = async(req,res) =>{
             donationId: donation._id,
             status: donation.status,
         });
-    }catch (err){
-        res.status(400).json({message:err.message});
-    }
-};
+    });
 // @desc    Update a donation — only the owner, and only before it's accepted
 // @route   PUT /api/donations/:id
 // @access  Private (Restaurant / EventOrganizer — owner only)
-const updateDonation = async (req, res) => {
-    try {
+const updateDonation = asyncHandler(async (req, res) => {
         const donation = await Donation.findById(req.params.id);
         if (!donation) {
             return res.status(404).json({ message: "Donation not found." });
@@ -104,16 +98,12 @@ const updateDonation = async (req, res) => {
         await donation.save();
 
         res.status(200).json({ message: "Donation updated successfully" });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Delete a donation — only the owner, and only before it's accepted
 // @route   DELETE /api/donations/:id
 // @access  Private (Restaurant / EventOrganizer — owner only)
-const deleteDonation = async (req, res) => {
-    try {
+const deleteDonation = asyncHandler(async (req, res) => {
         const donation = await Donation.findById(req.params.id);
         if (!donation) {
             return res.status(404).json({ message: "Donation not found." });
@@ -132,37 +122,26 @@ const deleteDonation = async (req, res) => {
         await donation.deleteOne();
 
         res.status(200).json({ message: "Donation removed successfully" });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Get all donations created by the logged-in donor
 // @route   GET /api/donations/my-donations
 // @access  Private (Restaurant / EventOrganizer)
-const getMyDonations = async (req, res) => {
-    try {
+const getMyDonations = asyncHandler(async (req, res) => {
         const donations = await Donation.find({ donorId: req.user._id }).sort({ createdAt: -1 });
         res.status(200).json(donations);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
+    });
 
 // @desc    Get full details of a single donation
 // @route   GET /api/donations/:id
 // @access  Private (any authenticated, logged-in user)
-const getDonationById = async (req, res) => {
-    try {
+const getDonationById = asyncHandler(async (req, res) => {
         const donation = await Donation.findById(req.params.id).populate("donorId", "name email role");
         if (!donation) {
             return res.status(404).json({ message: "Donation not found." });
         }
         res.status(200).json(donation);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-};
+    });
 
 module.exports = {
     browseDonations,

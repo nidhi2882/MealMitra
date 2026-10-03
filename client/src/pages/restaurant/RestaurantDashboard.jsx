@@ -67,21 +67,29 @@ export default function RestaurantDashboard() {
     if (loading) return <Loader />;
 
     return (
-        <div className="max-w-6xl mx-auto px-5 py-10">
+        <div className="max-w-6xl mx-auto px-5 py-10 animate-fade-in">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10 bg-white/60 p-8 rounded-3xl border border-line shadow-sm backdrop-blur-sm">
                 <div>
-                    <h1 className="font-display text-3xl text-ink mb-1">Donor Dashboard</h1>
-                    <p className="text-ink/60 text-sm">
-                        Manage your surplus food donations and track incoming pickup requests.
+                    <h1 className="font-display text-4xl text-ink mb-2">Donor Dashboard</h1>
+                    <p className="text-ink/70 text-base max-w-lg leading-relaxed">
+                        Manage your surplus food donations and track incoming pickup requests from verified NGOs.
                     </p>
                 </div>
 
                 <button
                     onClick={() => setFormModal({ open: true, initialData: null })}
-                    className="px-5 py-3 rounded-xl bg-accent text-white font-medium hover:opacity-90 transition-all text-sm shadow-sm flex items-center gap-2 self-start sm:self-auto"
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-accent to-[#dca255] text-white font-medium hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 text-sm flex items-center gap-2 self-start sm:self-auto group"
                 >
-                    <span className="text-lg leading-none">+</span> Post Food Listing
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 group-hover:rotate-90 transition-transform duration-300"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                    </svg>
+                    Post Food Listing
                 </button>
             </div>
 
@@ -97,19 +105,23 @@ export default function RestaurantDashboard() {
             )}
 
             {/* Section switcher: My Donations vs Incoming Requests */}
-            <div className="flex items-center gap-2 mb-8 bg-surface p-1 rounded-xl w-fit">
+            <div className="flex items-center gap-2 mb-10 bg-surface/50 p-1.5 rounded-2xl w-fit border border-line shadow-inner">
                 <button
                     onClick={() => setSection("donations")}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        section === "donations" ? "bg-white text-ink shadow-sm" : "text-ink/60"
+                    className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                        section === "donations" 
+                        ? "bg-white text-ink shadow-md border-line/50" 
+                        : "text-ink/60 hover:text-ink hover:bg-white/40"
                     }`}
                 >
                     My Donations
                 </button>
                 <button
                     onClick={() => setSection("incoming")}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        section === "incoming" ? "bg-white text-ink shadow-sm" : "text-ink/60"
+                    className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                        section === "incoming" 
+                        ? "bg-white text-ink shadow-md border-line/50" 
+                        : "text-ink/60 hover:text-ink hover:bg-white/40"
                     }`}
                 >
                     Incoming Requests
@@ -119,33 +131,68 @@ export default function RestaurantDashboard() {
             {section === "donations" ? (
                 <>
                     {/* Metrics cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                            <div className="text-xs text-ink/60 font-medium mb-1">Total Listed</div>
-                            <div className="font-display text-3xl text-ink font-semibold">{donations.length}</div>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                        {/* Card 1 */}
+                        <div className="bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-line shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-ink/70 font-medium">Total Listed</div>
+                                <div className="p-2 bg-surface rounded-lg group-hover:bg-accent/10 transition-colors">
+                                    <svg className="w-5 h-5 text-ink/50 group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="font-display text-4xl text-ink font-semibold">{donations.length}</div>
                         </div>
-                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                            <div className="text-xs text-ink/60 font-medium mb-1">Available Now</div>
-                            <div className="font-display text-3xl text-verified font-semibold">
+
+                        {/* Card 2 */}
+                        <div className="bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-line shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-ink/70 font-medium">Available Now</div>
+                                <div className="p-2 bg-verified/10 rounded-lg">
+                                    <svg className="w-5 h-5 text-verified" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="font-display text-4xl text-verified font-semibold">
                                 {availableDonations.length}
                             </div>
                         </div>
-                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                            <div className="text-xs text-ink/60 font-medium mb-1">In Progress</div>
-                            <div className="font-display text-3xl text-pending font-semibold">
+
+                        {/* Card 3 */}
+                        <div className="bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-line shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-ink/70 font-medium">In Progress</div>
+                                <div className="p-2 bg-pending/10 rounded-lg">
+                                    <svg className="w-5 h-5 text-pending" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="font-display text-4xl text-pending font-semibold">
                                 {inProgressDonations.length}
                             </div>
                         </div>
-                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                            <div className="text-xs text-ink/60 font-medium mb-1">Completed</div>
-                            <div className="font-display text-3xl text-accent font-semibold">
+
+                        {/* Card 4 */}
+                        <div className="bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-line shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-ink/70 font-medium">Completed</div>
+                                <div className="p-2 bg-accent/10 rounded-lg">
+                                    <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="font-display text-4xl text-accent font-semibold">
                                 {completedDonations.length}
                             </div>
                         </div>
                     </div>
 
                     {/* Filter Tabs */}
-                    <div className="flex items-center gap-2 border-b border-line mb-6 pb-2">
+                    <div className="flex flex-wrap items-center gap-3 border-b border-line mb-8 pb-4">
                         {[
                             { id: "All", label: `All (${donations.length})` },
                             { id: "Available", label: `Available (${availableDonations.length})` },
@@ -155,10 +202,10 @@ export default function RestaurantDashboard() {
                             <button
                                 key={tab.id}
                                 onClick={() => setFilterTab(tab.id)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                                     filterTab === tab.id
-                                        ? "bg-accent/10 text-accent font-semibold"
-                                        : "text-ink/60 hover:text-ink"
+                                        ? "bg-ink text-white shadow-md shadow-ink/20 transform scale-105"
+                                        : "bg-white border border-line text-ink/70 hover:text-ink hover:border-ink/30 hover:bg-surface"
                                 }`}
                             >
                                 {tab.label}
@@ -168,13 +215,21 @@ export default function RestaurantDashboard() {
 
                     {/* Listings Grid */}
                     {displayedDonations.length === 0 ? (
-                        <div className="bg-white p-12 text-center rounded-2xl border border-line">
-                            <p className="text-ink/60 text-sm mb-4">No donation listings found in this view.</p>
+                        <div className="bg-white/60 backdrop-blur-sm p-16 flex flex-col items-center justify-center text-center rounded-3xl border border-line border-dashed shadow-sm">
+                            <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mb-4">
+                                <svg className="w-8 h-8 text-ink/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                            </div>
+                            <h3 className="font-display text-xl text-ink mb-2">No donations found</h3>
+                            <p className="text-ink/60 text-sm max-w-sm mb-6 leading-relaxed">
+                                You don't have any food listings in this view. Post a new listing to share surplus food.
+                            </p>
                             <button
                                 onClick={() => setFormModal({ open: true, initialData: null })}
-                                className="px-4 py-2 rounded-lg bg-surface border border-line text-ink text-sm font-medium hover:bg-line/40 transition-colors"
+                                className="px-6 py-3 rounded-xl bg-ink text-white text-sm font-medium hover:bg-ink/90 hover:shadow-lg transition-all duration-300"
                             >
-                                Create your first donation
+                                Create First Listing
                             </button>
                         </div>
                     ) : (

@@ -13,7 +13,7 @@ const {
     getDonationReport,
     getUserReport,
 } = require("../controllers/adminController");
-const { protect } = require("../middleware/Authmiddleware");
+const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/Rolemiddleware");
 
 router.get("/users", protect, authorize("Admin"), getAllUsers);

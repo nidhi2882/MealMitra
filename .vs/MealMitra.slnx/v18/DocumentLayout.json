@@ -3,16 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\PickupRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\NotificationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\controllers\\DonationController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\DonationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\AdminRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\PickupRequest.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\PickupRequest.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Restaurant.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\Restaurant.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Admin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\Admin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\src\\pages\\auth\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\auth\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\NotificationController.js||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\controllers\\NotificationController.js||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\NotificationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Notification.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -23,16 +59,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\Createadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\AdminRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\User.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\User.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Admin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\Admin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\AdminController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -51,18 +79,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\controllers\\PickupController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\PickupRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\routes\\DonationRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\controllers\\DonationController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Donation.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\models\\Donation.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -78,24 +94,128 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NotificationRoutes.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js",
-              "RelativeDocumentMoniker": "server\\routes\\NotificationRoutes.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js",
-              "RelativeToolTip": "server\\routes\\NotificationRoutes.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAYAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "PickupRequest.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\PickupRequest.js",
+              "RelativeDocumentMoniker": "server\\models\\PickupRequest.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\PickupRequest.js",
+              "RelativeToolTip": "server\\models\\PickupRequest.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T13:34:22.455Z",
+              "WhenOpened": "2026-09-27T17:53:59.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Restaurant.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Restaurant.js",
+              "RelativeDocumentMoniker": "server\\models\\Restaurant.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Restaurant.js",
+              "RelativeToolTip": "server\\models\\Restaurant.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-27T17:53:52.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AdminRoutes.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js",
+              "RelativeDocumentMoniker": "server\\routes\\AdminRoutes.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js",
+              "RelativeToolTip": "server\\routes\\AdminRoutes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T12:37:08.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DonationRoutes.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js",
+              "RelativeDocumentMoniker": "server\\routes\\DonationRoutes.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js",
+              "RelativeToolTip": "server\\routes\\DonationRoutes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T10:56:45.33Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "DonationController.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js",
+              "RelativeDocumentMoniker": "server\\controllers\\DonationController.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js",
+              "RelativeToolTip": "server\\controllers\\DonationController.js",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAKcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T10:57:59.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "server.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\server.js",
+              "RelativeDocumentMoniker": "server\\server.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\server.js",
+              "RelativeToolTip": "server\\server.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T10:56:03.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PickupRoutes.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js",
+              "RelativeDocumentMoniker": "server\\routes\\PickupRoutes.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js",
+              "RelativeToolTip": "server\\routes\\PickupRoutes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T10:01:53.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\index.html",
+              "RelativeDocumentMoniker": "client\\index.html",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\index.html",
+              "RelativeToolTip": "client\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-09-27T17:53:31.021Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Register.jsx",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\src\\pages\\auth\\Register.jsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\auth\\Register.jsx",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\client\\src\\pages\\auth\\Register.jsx",
+              "RelativeToolTip": "client\\src\\pages\\auth\\Register.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-09-27T17:52:43.116Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "NotificationController.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\NotificationController.js",
               "RelativeDocumentMoniker": "server\\controllers\\NotificationController.js",
@@ -108,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "Notification.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Notification.js",
               "RelativeDocumentMoniker": "server\\models\\Notification.js",
@@ -116,12 +236,23 @@
               "RelativeToolTip": "server\\models\\Notification.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T13:32:15.323Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-13T13:32:15.323Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
+              "Title": "NotificationRoutes.js",
+              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js",
+              "RelativeDocumentMoniker": "server\\routes\\NotificationRoutes.js",
+              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\NotificationRoutes.js",
+              "RelativeToolTip": "server\\routes\\NotificationRoutes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-13T13:34:22.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "Createadmin.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\Createadmin.js",
               "RelativeDocumentMoniker": "server\\Createadmin.js",
@@ -129,12 +260,11 @@
               "RelativeToolTip": "server\\Createadmin.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T12:58:17.344Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-13T12:58:17.344Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 14,
               "Title": "User.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\User.js",
               "RelativeDocumentMoniker": "server\\models\\User.js",
@@ -154,36 +284,12 @@
               "RelativeToolTip": "server\\models\\Admin.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T12:45:08.753Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AdminRoutes.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js",
-              "RelativeDocumentMoniker": "server\\routes\\AdminRoutes.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\AdminRoutes.js",
-              "RelativeToolTip": "server\\routes\\AdminRoutes.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T12:37:08.824Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "server.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\server.js",
-              "RelativeDocumentMoniker": "server\\server.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\server.js",
-              "RelativeToolTip": "server\\server.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T10:56:03.109Z",
+              "WhenOpened": "2026-09-13T12:45:08.753Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "AdminController.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\AdminController.js",
               "RelativeDocumentMoniker": "server\\controllers\\AdminController.js",
@@ -195,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "HistoryRoutes.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\HistoryRoutes.js",
               "RelativeDocumentMoniker": "server\\routes\\HistoryRoutes.js",
@@ -207,19 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "DonationController.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js",
-              "RelativeDocumentMoniker": "server\\controllers\\DonationController.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\DonationController.js",
-              "RelativeToolTip": "server\\controllers\\DonationController.js",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAgwKcAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T10:57:59.109Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "Donation.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\models\\Donation.js",
               "RelativeDocumentMoniker": "server\\models\\Donation.js",
@@ -231,19 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "DonationRoutes.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js",
-              "RelativeDocumentMoniker": "server\\routes\\DonationRoutes.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\DonationRoutes.js",
-              "RelativeToolTip": "server\\routes\\DonationRoutes.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T10:56:45.33Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "HistoryController.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\HistoryController.js",
               "RelativeDocumentMoniker": "server\\controllers\\HistoryController.js",
@@ -255,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
@@ -267,19 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "PickupRoutes.js",
-              "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js",
-              "RelativeDocumentMoniker": "server\\routes\\PickupRoutes.js",
-              "ToolTip": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\routes\\PickupRoutes.js",
-              "RelativeToolTip": "server\\routes\\PickupRoutes.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-09-13T10:01:53.636Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "PickupController.js",
               "DocumentMoniker": "C:\\Users\\Jiya Patel\\Desktop\\MealMitra\\server\\controllers\\PickupController.js",
               "RelativeDocumentMoniker": "server\\controllers\\PickupController.js",

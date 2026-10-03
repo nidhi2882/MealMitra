@@ -1,8 +1,8 @@
 const PickupRequest = require("../models/PickupRequest");
 const Donation = require("../models/Donation");
-const { DONOR_ROLES } = require("./donationController");
+const { DONOR_ROLES } = require("./DonationController");
 
-// @desc    NGO sends a pickup request for an available donation
+// @description    NGO sends a pickup request for an available donation
 // @route   POST /api/pickups
 // @access  Private (NGO only)
 

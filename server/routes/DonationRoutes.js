@@ -11,7 +11,7 @@ const {
     DONOR_ROLES,
 } = require("../controllers/DonationController");
 const { protect } = require("../middleware/authMiddleware");
-const { authorize } = require("../middleware/roleMiddleware");
+const { authorize } = require("../middleware/Rolemiddleware");
 
 // IMPORTANT: /my-donations must be defined BEFORE /:id.
 // Express matches routes top-to-bottom — if /:id came first, a request to

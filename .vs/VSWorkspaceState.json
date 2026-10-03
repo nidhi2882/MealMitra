@@ -1,11 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\client",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\donation",
+    "\\client\\src\\components\\notification",
+    "\\client\\src\\pages",
+    "\\client\\src\\pages\\auth",
     "\\server",
-    "\\server\\controllers",
-    "\\server\\models",
+    "\\server\\middleware",
     "\\server\\routes"
   ],
-  "SelectedNode": "\\server\\server.js",
+  "SelectedNode": "\\server\\routes\\PickupRoutes.js",
   "PreviewInSolutionExplorer": false
 }

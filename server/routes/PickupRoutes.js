@@ -8,10 +8,10 @@ const {
     respondToPickupRequest,
     updatePickupStatus,
     getPickupById,
-} = require("../controllers/pickupController");
-const { DONOR_ROLES } = require("../controllers/donationController");
+} = require("../controllers/PickupController");
+const { DONOR_ROLES } = require("../controllers/DonationController");
 const { protect } = require("../middleware/authMiddleware");
-const { authorize } = require("../middleware/roleMiddleware");
+const { authorize } = require("../middleware/Rolemiddleware");
 
 // NGO-only routes
 router.post("/", protect, authorize("NGO"), createPickupRequest);

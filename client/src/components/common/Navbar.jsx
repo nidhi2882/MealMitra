@@ -21,6 +21,7 @@ const roleLinks = {
     Admin: [
         { to: "/admin/pending", label: "Verify Users" },
         { to: "/admin/users", label: "All Users" },
+        { to: "/admin/donations", label: "Moderate Donations" },
         { to: "/admin/reports", label: "Reports" },
     ],
 };

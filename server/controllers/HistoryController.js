@@ -1,6 +1,6 @@
 const Donation = require("../models/Donation");
 const PickupRequest = require("../models/PickupRequest");
-const { DONOR_ROLES } = require("./donationController");
+const { DONOR_ROLES } = require("./DonationController");
 
 // @desc    Get completed donation/pickup history for the logged-in user (role-based)
 // @route   GET /api/history

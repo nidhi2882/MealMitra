@@ -41,3 +41,7 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+export const getErrorMessage = (err) =>
+    err.response?.data?.message || err.message || "Something went wrong";
+

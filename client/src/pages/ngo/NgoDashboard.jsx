@@ -111,7 +111,7 @@ export default function NgoDashboard() {
                                     </p>
                                 )}
                                 {["Accepted", "Picked Up", "Completed"].includes(req.status) && (
-                                    <StatusTracker request={req} onUpdated={fetchRequests} />
+                                <StatusTracker request={req} onUpdated={fetchRequests} canAdvance={false} />
                                 )}
                             </div>
                         );

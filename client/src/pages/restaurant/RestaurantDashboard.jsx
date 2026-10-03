@@ -4,6 +4,7 @@ import api from "../../services/api";
 import Loader from "../../components/common/Loader";
 import DonationCard from "../../components/donation/DonationCard";
 import DonationForm from "../../components/donation/DonationForm";
+import IncomingRequests from "./IncomingRequests";
 
 export default function RestaurantDashboard() {
     const { user } = useAuth();
@@ -13,6 +14,7 @@ export default function RestaurantDashboard() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [formModal, setFormModal] = useState({ open: false, initialData: null });
+    const [section, setSection] = useState("donations"); // "donations" | "incoming"
 
     useEffect(() => {
         fetchMyDonations();
@@ -94,78 +96,104 @@ export default function RestaurantDashboard() {
                 </div>
             )}
 
-            {/* Metrics cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                    <div className="text-xs text-ink/60 font-medium mb-1">Total Listed</div>
-                    <div className="font-display text-3xl text-ink font-semibold">{donations.length}</div>
-                </div>
-                <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                    <div className="text-xs text-ink/60 font-medium mb-1">Available Now</div>
-                    <div className="font-display text-3xl text-verified font-semibold">
-                        {availableDonations.length}
-                    </div>
-                </div>
-                <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                    <div className="text-xs text-ink/60 font-medium mb-1">In Progress</div>
-                    <div className="font-display text-3xl text-pending font-semibold">
-                        {inProgressDonations.length}
-                    </div>
-                </div>
-                <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
-                    <div className="text-xs text-ink/60 font-medium mb-1">Completed</div>
-                    <div className="font-display text-3xl text-accent font-semibold">
-                        {completedDonations.length}
-                    </div>
-                </div>
+            {/* Section switcher: My Donations vs Incoming Requests */}
+            <div className="flex items-center gap-2 mb-8 bg-surface p-1 rounded-xl w-fit">
+                <button
+                    onClick={() => setSection("donations")}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        section === "donations" ? "bg-white text-ink shadow-sm" : "text-ink/60"
+                    }`}
+                >
+                    My Donations
+                </button>
+                <button
+                    onClick={() => setSection("incoming")}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        section === "incoming" ? "bg-white text-ink shadow-sm" : "text-ink/60"
+                    }`}
+                >
+                    Incoming Requests
+                </button>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-2 border-b border-line mb-6 pb-2">
-                {[
-                    { id: "All", label: `All (${donations.length})` },
-                    { id: "Available", label: `Available (${availableDonations.length})` },
-                    { id: "InProgress", label: `In Progress (${inProgressDonations.length})` },
-                    { id: "Completed", label: `Completed (${completedDonations.length})` },
-                ].map((tab) => (
-                    <button
-                        key={tab.id}
-                        onClick={() => setFilterTab(tab.id)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                            filterTab === tab.id
-                                ? "bg-accent/10 text-accent font-semibold"
-                                : "text-ink/60 hover:text-ink"
-                        }`}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
+            {section === "donations" ? (
+                <>
+                    {/* Metrics cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
+                            <div className="text-xs text-ink/60 font-medium mb-1">Total Listed</div>
+                            <div className="font-display text-3xl text-ink font-semibold">{donations.length}</div>
+                        </div>
+                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
+                            <div className="text-xs text-ink/60 font-medium mb-1">Available Now</div>
+                            <div className="font-display text-3xl text-verified font-semibold">
+                                {availableDonations.length}
+                            </div>
+                        </div>
+                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
+                            <div className="text-xs text-ink/60 font-medium mb-1">In Progress</div>
+                            <div className="font-display text-3xl text-pending font-semibold">
+                                {inProgressDonations.length}
+                            </div>
+                        </div>
+                        <div className="bg-white p-5 rounded-2xl border border-line shadow-sm">
+                            <div className="text-xs text-ink/60 font-medium mb-1">Completed</div>
+                            <div className="font-display text-3xl text-accent font-semibold">
+                                {completedDonations.length}
+                            </div>
+                        </div>
+                    </div>
 
-            {/* Listings Grid */}
-            {displayedDonations.length === 0 ? (
-                <div className="bg-white p-12 text-center rounded-2xl border border-line">
-                    <p className="text-ink/60 text-sm mb-4">No donation listings found in this view.</p>
-                    <button
-                        onClick={() => setFormModal({ open: true, initialData: null })}
-                        className="px-4 py-2 rounded-lg bg-surface border border-line text-ink text-sm font-medium hover:bg-line/40 transition-colors"
-                    >
-                        Create your first donation
-                    </button>
-                </div>
+                    {/* Filter Tabs */}
+                    <div className="flex items-center gap-2 border-b border-line mb-6 pb-2">
+                        {[
+                            { id: "All", label: `All (${donations.length})` },
+                            { id: "Available", label: `Available (${availableDonations.length})` },
+                            { id: "InProgress", label: `In Progress (${inProgressDonations.length})` },
+                            { id: "Completed", label: `Completed (${completedDonations.length})` },
+                        ].map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setFilterTab(tab.id)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                    filterTab === tab.id
+                                        ? "bg-accent/10 text-accent font-semibold"
+                                        : "text-ink/60 hover:text-ink"
+                                }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Listings Grid */}
+                    {displayedDonations.length === 0 ? (
+                        <div className="bg-white p-12 text-center rounded-2xl border border-line">
+                            <p className="text-ink/60 text-sm mb-4">No donation listings found in this view.</p>
+                            <button
+                                onClick={() => setFormModal({ open: true, initialData: null })}
+                                className="px-4 py-2 rounded-lg bg-surface border border-line text-ink text-sm font-medium hover:bg-line/40 transition-colors"
+                            >
+                                Create your first donation
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {displayedDonations.map((donation) => (
+                                <DonationCard
+                                    key={donation._id}
+                                    donation={donation}
+                                    onEdit={handleEdit}
+                                    onDelete={handleDelete}
+                                    currentUserId={user?.id || user?._id}
+                                    userRole={user?.role}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {displayedDonations.map((donation) => (
-                        <DonationCard
-                            key={donation._id}
-                            donation={donation}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                            currentUserId={user?.id || user?._id}
-                            userRole={user?.role}
-                        />
-                    ))}
-                </div>
+                <IncomingRequests />
             )}
 
             {/* Donation Form Modal */}

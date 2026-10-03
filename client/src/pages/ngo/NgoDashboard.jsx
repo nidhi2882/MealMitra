@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api, { getErrorMessage } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import Loader from "../../components/common/Loader";
+import StatusTracker from "../../components/pickup/StatusTracker";
 import "./ngo.css";
 
 const STATUS_FILTERS = ["All", "Requested", "Accepted", "Rejected", "Picked Up", "Completed"];
@@ -43,7 +44,7 @@ export default function NgoDashboard() {
                     <h1>Welcome{user?.name ? `, ${user.name}` : ""}</h1>
                     <p className="muted">Track the pickup requests you've sent.</p>
                 </div>
-                <Link to="/ngo/browse" className="btn btn-primary">
+                <Link to="/browse" className="btn btn-primary">
                     Browse donations
                 </Link>
             </div>
@@ -104,7 +105,14 @@ export default function NgoDashboard() {
                                     Requested on {new Date(req.createdAt).toLocaleDateString()}
                                 </p>
 
-                                {/* Topic 6: drop <StatusTracker request={req} onUpdated={fetchRequests} /> here */}
+                                {req.status === "Rejected" && (
+                                    <p className="muted" style={{ color: "#991b1b", fontWeight: 500 }}>
+                                        This request was rejected.
+                                    </p>
+                                )}
+                                {["Accepted", "Picked Up", "Completed"].includes(req.status) && (
+                                    <StatusTracker request={req} onUpdated={fetchRequests} />
+                                )}
                             </div>
                         );
                     })}

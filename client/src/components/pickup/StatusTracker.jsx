@@ -3,7 +3,7 @@ import api, { getErrorMessage } from "../../services/api";
 
 const STEPS = ["Requested", "Accepted", "Picked Up", "Completed"];
 
-export default function StatusTracker({ request, onUpdated }) {
+export default function StatusTracker({ request, onUpdated, canAdvance = true }) {
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState("");
 
@@ -61,7 +61,7 @@ export default function StatusTracker({ request, onUpdated }) {
 
             {error && <p className="text-xs text-alert mt-2">{error}</p>}
 
-            {nextStatus && (
+            {canAdvance && nextStatus && (
                 <button
                     onClick={handleAdvance}
                     disabled={updating}

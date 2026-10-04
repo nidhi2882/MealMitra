@@ -37,11 +37,12 @@ export default function Navbar() {
     };
 
     const links = user ? roleLinks[user.role] || [] : [];
+    const logoLink = isAuthenticated && user ? location.pathname : "/";
 
     return (
         <header className="border-b border-line bg-background sticky top-0 z-50">
             <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-                <Link to="/" className="font-display text-xl font-semibold text-ink tracking-tight">
+                <Link to={logoLink} className="font-display text-xl font-semibold text-ink tracking-tight">
                     MealMitra
                 </Link>
 

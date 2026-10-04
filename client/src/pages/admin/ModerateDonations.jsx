@@ -12,6 +12,8 @@ const STATUS_CLASSES = {
 
 export default function ModerateDonations() {
     const [donations, setDonations] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState("");
     const [error, setError] = useState("");
@@ -20,16 +22,17 @@ export default function ModerateDonations() {
 
     useEffect(() => {
         fetchDonations();
-    }, [statusFilter]);
+    }, [statusFilter, page]);
 
     const fetchDonations = async () => {
         try {
             setLoading(true);
-            const params = {};
+            const params = { page, limit: 10 };
             if (statusFilter) params.status = statusFilter;
 
             const res = await api.get("/admin/donations", { params });
-            setDonations(res.data);
+            setDonations(res.data.donations);
+            setTotalPages(res.data.totalPages);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to fetch donations.");
         } finally {
@@ -67,7 +70,7 @@ export default function ModerateDonations() {
 
                 <select
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
+                    onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
                     className="px-3 py-2 rounded-lg border border-line bg-white text-sm text-ink focus:border-accent focus:outline-none"
                 >
                     <option value="">All Statuses</option>
@@ -124,9 +127,8 @@ export default function ModerateDonations() {
                                         <td className="px-6 py-4">{d.quantity}</td>
                                         <td className="px-6 py-4">
                                             <span
-                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                                                    STATUS_CLASSES[d.status] || "bg-surface text-ink"
-                                                }`}
+                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${STATUS_CLASSES[d.status] || "bg-surface text-ink"
+                                                    }`}
                                             >
                                                 {d.status}
                                             </span>
@@ -153,6 +155,25 @@ export default function ModerateDonations() {
                             </tbody>
                         </table>
                     </div>
+                    {!loading && totalPages > 1 && (
+                        <div className="flex justify-center items-center gap-4 p-4 border-t border-line">
+                            <button
+                                disabled={page === 1}
+                                onClick={() => setPage(page - 1)}
+                                className="px-3 py-1.5 rounded-lg border border-line bg-white text-ink text-xs font-medium hover:border-accent hover:text-accent transition-all disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+                            <span className="text-ink/70 text-sm">Page {page} of {totalPages}</span>
+                            <button
+                                disabled={page === totalPages}
+                                onClick={() => setPage(page + 1)}
+                                className="px-3 py-1.5 rounded-lg border border-line bg-white text-ink text-xs font-medium hover:border-accent hover:text-accent transition-all disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

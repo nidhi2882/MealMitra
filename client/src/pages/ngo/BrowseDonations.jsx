@@ -11,6 +11,8 @@ const EMPTY_FILTERS = { foodType: "", location: "", minQuantity: "", expiryBefor
 export default function BrowseDonations() {
     const { user } = useAuth();
     const [donations, setDonations] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState(EMPTY_FILTERS);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -28,8 +30,13 @@ export default function BrowseDonations() {
                     key === "expiryBefore" ? new Date(`${value}T23:59:59`).toISOString() : value;
             });
 
+            params.page = activeFilters.page || 1;
+            params.limit = 10; // Set items per page
+
             const { data } = await api.get("/donations", { params });
-            setDonations(data);
+            setDonations(data.donations);
+            setPage(data.page);
+            setTotalPages(data.totalPages);
         } catch (err) {
             setError(getErrorMessage(err));
         } finally {
@@ -38,19 +45,21 @@ export default function BrowseDonations() {
     }, []);
 
     useEffect(() => {
-        fetchDonations(EMPTY_FILTERS);
-    }, [fetchDonations]);
+        fetchDonations({ ...filters, page });
+    }, [page, fetchDonations]);
 
     const handleChange = (e) => setFilters({ ...filters, [e.target.name]: e.target.value });
 
     const handleApply = (e) => {
         e.preventDefault();
-        fetchDonations(filters);
+        setPage(1); // Reset to first page on filter change
+        fetchDonations({ ...filters, page: 1 });
     };
 
     const handleReset = () => {
         setFilters(EMPTY_FILTERS);
-        fetchDonations(EMPTY_FILTERS);
+        setPage(1);
+        fetchDonations({ ...EMPTY_FILTERS, page: 1 });
     };
 
     const handleRequestSuccess = (message) => {
@@ -118,6 +127,26 @@ export default function BrowseDonations() {
                             onRequest={(d) => setSelected(d)}
                         />
                     ))}
+                </div>
+            )}
+
+            {!loading && totalPages > 1 && (
+                <div className="flex justify-center items-center gap-4 mt-8">
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                        className="btn btn-secondary"
+                    >
+                        Previous
+                    </button>
+                    <span className="text-ink/70">Page {page} of {totalPages}</span>
+                    <button
+                        disabled={page === totalPages}
+                        onClick={() => setPage(page + 1)}
+                        className="btn btn-secondary"
+                    >
+                        Next
+                    </button>
                 </div>
             )}
 

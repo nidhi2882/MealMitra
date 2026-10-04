@@ -17,8 +17,13 @@ const getAllUsers = asyncHandler(async (req, res) => {
         if (req.query.verificationStatus) {
             filter.verificationStatus = req.query.verificationStatus;
         }
-        const users = await User.find(filter).select("-password").sort({ createdAt: -1 });
-        res.status(200).json(users);
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+        const skip = (page - 1) * limit;
+
+        const users = await User.find(filter).select("-password").sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const total = await User.countDocuments(filter);
+        res.status(200).json({ users, page, totalPages: Math.ceil(total / limit), total });
     });
 
 // @desc    List only users awaiting verification (dedicated endpoint per API doc)
@@ -111,10 +116,15 @@ const getAllDonations = asyncHandler(async (req, res) => {
         if (req.query.status) {
             filter.status = req.query.status;
         }
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+        const skip = (page - 1) * limit;
+
         const donations = await Donation.find(filter)
             .populate("donorId", "name role email")
-            .sort({ createdAt: -1 });
-        res.status(200).json(donations);
+            .sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const total = await Donation.countDocuments(filter);
+        res.status(200).json({ donations, page, totalPages: Math.ceil(total / limit), total });
     });
 
 // @desc    Remove an invalid, expired, or inappropriate donation listing

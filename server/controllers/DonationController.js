@@ -30,11 +30,24 @@ const browseDonations = asyncHandler(async (req,res) => {
         if (req.query.expiryBefore) {
             filter.expiryTime.$lte = new Date(req.query.expiryBefore);
         }
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+        const skip = (page - 1) * limit;
+
         const donations = await Donation.find(filter)
             .populate("donorId", "name role organizationName location") // show who's donating, without exposing password etc.
-            .sort({expiryTime: 1}); // soonest-expiring first — most urgent to pick up
+            .sort({expiryTime: 1}) // soonest-expiring first — most urgent to pick up
+            .skip(skip)
+            .limit(limit);
 
-        res.status(200).json(donations);
+        const total = await Donation.countDocuments(filter);
+
+        res.status(200).json({
+            donations,
+            page,
+            totalPages: Math.ceil(total / limit),
+            total
+        });
     });
 // @desc    Create a new food donation listing
 // @route   POST /api/donations

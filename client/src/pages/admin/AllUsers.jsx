@@ -4,6 +4,8 @@ import Loader from "../../components/common/Loader";
 
 export default function AllUsers() {
     const [users, setUsers] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [roleFilter, setRoleFilter] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
@@ -13,17 +15,18 @@ export default function AllUsers() {
 
     useEffect(() => {
         fetchUsers();
-    }, [roleFilter, statusFilter]);
+    }, [roleFilter, statusFilter, page]);
 
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const params = {};
+            const params = { page, limit: 10 };
             if (roleFilter) params.role = roleFilter;
             if (statusFilter) params.verificationStatus = statusFilter;
 
             const res = await api.get("/admin/users", { params });
-            setUsers(res.data);
+            setUsers(res.data.users);
+            setTotalPages(res.data.totalPages);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to fetch users list.");
         } finally {
@@ -79,7 +82,7 @@ export default function AllUsers() {
                 <div className="flex flex-wrap items-center gap-3">
                     <select
                         value={roleFilter}
-                        onChange={(e) => setRoleFilter(e.target.value)}
+                        onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }}
                         className="px-3 py-2 rounded-lg border border-line bg-white text-sm text-ink focus:border-accent focus:outline-none"
                     >
                         <option value="">All Roles</option>
@@ -91,7 +94,7 @@ export default function AllUsers() {
 
                     <select
                         value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
+                        onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
                         className="px-3 py-2 rounded-lg border border-line bg-white text-sm text-ink focus:border-accent focus:outline-none"
                     >
                         <option value="">All Statuses</option>
@@ -137,9 +140,8 @@ export default function AllUsers() {
                                 {users.map((u) => (
                                     <tr
                                         key={u._id}
-                                        className={`transition-colors ${
-                                            u.isDeleted ? "bg-alert/5 text-ink/50" : "hover:bg-background/50"
-                                        }`}
+                                        className={`transition-colors ${u.isDeleted ? "bg-alert/5 text-ink/50" : "hover:bg-background/50"
+                                            }`}
                                     >
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-ink">{u.name}</div>
@@ -157,13 +159,12 @@ export default function AllUsers() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span
-                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                                                    u.verificationStatus === "Verified"
+                                                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${u.verificationStatus === "Verified"
                                                         ? "bg-verified/15 text-verified"
                                                         : u.verificationStatus === "Rejected"
-                                                        ? "bg-alert/15 text-alert"
-                                                        : "bg-pending/15 text-pending"
-                                                }`}
+                                                            ? "bg-alert/15 text-alert"
+                                                            : "bg-pending/15 text-pending"
+                                                    }`}
                                             >
                                                 {u.verificationStatus || "Verified"}
                                             </span>
@@ -203,6 +204,25 @@ export default function AllUsers() {
                             </tbody>
                         </table>
                     </div>
+                    {!loading && totalPages > 1 && (
+                        <div className="flex justify-center items-center gap-4 p-4 border-t border-line">
+                            <button
+                                disabled={page === 1}
+                                onClick={() => setPage(page - 1)}
+                                className="px-3 py-1.5 rounded-lg border border-line bg-white text-ink text-xs font-medium hover:border-accent hover:text-accent transition-all disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+                            <span className="text-ink/70 text-sm">Page {page} of {totalPages}</span>
+                            <button
+                                disabled={page === totalPages}
+                                onClick={() => setPage(page + 1)}
+                                className="px-3 py-1.5 rounded-lg border border-line bg-white text-ink text-xs font-medium hover:border-accent hover:text-accent transition-all disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

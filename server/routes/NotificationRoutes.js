@@ -7,7 +7,7 @@ const {
     markAllRead,
     deleteNotification,
 } = require("../controllers/NotificationController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/Authmiddleware");
 
 // IMPORTANT: /read-all must come BEFORE /:id/read, otherwise Express would
 // try to match "read-all" as an :id value on a route pattern like /:id/read

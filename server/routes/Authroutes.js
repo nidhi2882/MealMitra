@@ -6,7 +6,7 @@ const { registerUser } = require("../controllers/AuthController");
 const { loginUser } = require("../controllers/AuthController");
 
 const { getMe } = require("../controllers/AuthController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/Authmiddleware");
 const {updateProfile}=require("../controllers/AuthController");
 const {logoutUser} = require("../controllers/AuthController");
 

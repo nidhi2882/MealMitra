@@ -13,8 +13,8 @@ const {
     getDonationReport,
     getUserReport,
     generatePDFReport,
-} = require("../controllers/adminController");
-const { protect } = require("../middleware/authMiddleware");
+} = require("../controllers/AdminController");
+const { protect } = require("../middleware/Authmiddleware");
 const { authorize } = require("../middleware/Rolemiddleware");
 
 router.get("/users", protect, authorize("Admin"), getAllUsers);

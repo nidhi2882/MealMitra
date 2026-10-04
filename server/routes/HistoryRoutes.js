@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { getHistory, getUserHistory } = require("../controllers/HistoryController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/Authmiddleware");
 
 // Authenticated — role-based own history
 router.get("/", protect, getHistory);

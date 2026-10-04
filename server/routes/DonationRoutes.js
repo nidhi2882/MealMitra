@@ -10,7 +10,7 @@ const {
     getDonationById,
     DONOR_ROLES,
 } = require("../controllers/DonationController");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/Authmiddleware");
 const { authorize } = require("../middleware/Rolemiddleware");
 
 // IMPORTANT: /my-donations must be defined BEFORE /:id.

@@ -13,7 +13,7 @@ const {
     getDonationReport,
     getUserReport,
     generatePDFReport,
-} = require("../controllers/adminController");
+} = require("../controllers/AdminController");
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/Rolemiddleware");
 

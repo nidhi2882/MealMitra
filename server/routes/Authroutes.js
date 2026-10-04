@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { registerUser } = require("../controllers/authController");
+const { registerUser } = require("../controllers/AuthController");
 
-const { loginUser } = require("../controllers/authController");
+const { loginUser } = require("../controllers/AuthController");
 
-const { getMe } = require("../controllers/authController");
+const { getMe } = require("../controllers/AuthController");
 const { protect } = require("../middleware/authMiddleware");
-const {updateProfile}=require("../controllers/authController");
-const {logoutUser} = require("../controllers/authController");
+const {updateProfile}=require("../controllers/AuthController");
+const {logoutUser} = require("../controllers/AuthController");
 
 
 //for registration

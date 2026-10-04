@@ -16,9 +16,9 @@ export default function Home() {
                             Join the movement against food waste
                         </div>
                         <h1 className="font-display text-5xl lg:text-7xl font-bold tracking-tight text-ink mb-6 leading-tight">
-                            Share a meal, <br className="hidden lg:block" />
+                            Turning Surplus <br className="hidden lg:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent/70">
-                                change a life.
+                                into Smiles
                             </span>
                         </h1>
                         <p className="text-lg lg:text-xl text-ink/70 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">

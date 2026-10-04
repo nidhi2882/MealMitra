@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Restaurant = require("../models/Restaurant");
 const EventOrganizer = require("../models/EventOrganizer");
 const NGO = require("../models/NGO");
-const generateToken = require("../utils/generateToken");
+const generateToken = require("../utils/GenerateToken");
 const asyncHandler = require("express-async-handler");
 
 // Only these roles can self-register (R.1.1). Admin accounts are created

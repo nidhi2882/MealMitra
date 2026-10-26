@@ -21,6 +21,8 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
         expiryTime: "",
         pickupAddress: "",
     });
+    const [locationCoords, setLocationCoords] = useState(null);
+    const [detectingLocation, setDetectingLocation] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
@@ -40,6 +42,11 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
                 expiryTime: isoLocal,
                 pickupAddress: initialData.pickupAddress || "",
             });
+            if (initialData.location?.lat && initialData.location?.lng) {
+                setLocationCoords({ lat: initialData.location.lat, lng: initialData.location.lng });
+            } else {
+                setLocationCoords(null);
+            }
         } else {
             setForm({
                 foodName: "",
@@ -49,11 +56,49 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
                 expiryTime: "",
                 pickupAddress: "",
             });
+            setLocationCoords(null);
         }
         setError("");
     }, [initialData, open]);
 
     if (!open) return null;
+
+    // Detect donor's real current GPS position and reverse-geocode to a human-readable street address
+    const detectCurrentLocation = () => {
+        if (!navigator.geolocation) {
+            setError("Geolocation is not supported by your browser.");
+            return;
+        }
+
+        setDetectingLocation(true);
+        setError("");
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                setLocationCoords({ lat: latitude, lng: longitude });
+
+                try {
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const data = await res.json();
+                    if (data && data.display_name) {
+                        setForm((prev) => ({ ...prev, pickupAddress: data.display_name }));
+                    }
+                } catch {
+                    // Coordinates still saved even if address lookup times out
+                } finally {
+                    setDetectingLocation(false);
+                }
+            },
+            () => {
+                setDetectingLocation(false);
+                setError("Unable to retrieve GPS location. Please allow browser location access.");
+            },
+            { timeout: 10000, enableHighAccuracy: true }
+        );
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,10 +125,33 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
                 return;
             }
 
+            let finalCoords = locationCoords;
+
+            // If coordinates were not detected via GPS, geocode the typed address via Nominatim
+            if (!finalCoords && form.pickupAddress.trim()) {
+                try {
+                    const geoRes = await fetch(
+                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+                            form.pickupAddress
+                        )}&limit=1`
+                    );
+                    const geoData = await geoRes.json();
+                    if (geoData && geoData.length > 0) {
+                        finalCoords = {
+                            lat: parseFloat(geoData[0].lat),
+                            lng: parseFloat(geoData[0].lon),
+                        };
+                    }
+                } catch {
+                    // Fall back to server default if geocoding fails
+                }
+            }
+
             const payload = {
                 ...form,
                 quantity: Number(form.quantity),
                 expiryTime: expiryDate.toISOString(),
+                location: finalCoords || undefined,
             };
 
             if (isEdit) {
@@ -178,7 +246,18 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-ink mb-1">Pickup Address *</label>
+                        <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-ink">Pickup Address *</label>
+                            <button
+                                type="button"
+                                onClick={detectCurrentLocation}
+                                disabled={detectingLocation}
+                                className="text-xs text-accent hover:opacity-80 transition-opacity font-semibold flex items-center gap-1.5 disabled:opacity-50"
+                            >
+                                <span className={detectingLocation ? "animate-spin" : ""}>📍</span>
+                                <span>{detectingLocation ? "Detecting GPS..." : "Detect Current Location"}</span>
+                            </button>
+                        </div>
                         <textarea
                             rows="2"
                             placeholder="Full address where NGO can collect the food..."
@@ -187,6 +266,14 @@ export default function DonationForm({ open, onClose, onSuccess, initialData = n
                             required
                             className="w-full px-3.5 py-2.5 rounded-lg border border-line bg-white text-ink text-sm focus:border-accent focus:outline-none"
                         />
+                        {locationCoords && (
+                            <p className="text-[11px] text-verified font-medium flex items-center gap-1 mt-1">
+                                <span>✓ Real GPS coordinates pinned:</span>
+                                <span className="font-mono text-ink/70">
+                                    {locationCoords.lat.toFixed(4)}, {locationCoords.lng.toFixed(4)}
+                                </span>
+                            </p>
+                        )}
                     </div>
 
                     <div>

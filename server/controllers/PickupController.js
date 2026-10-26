@@ -3,6 +3,7 @@ const PickupRequest = require("../models/PickupRequest");
 const Donation = require("../models/Donation");
 const Notification = require("../models/Notification");
 const { DONOR_ROLES } = require("./DonationController");
+const { emitToAll, emitToUser } = require("../config/socket");
 
 // @description    NGO sends a pickup request for an available donation
 // @route   POST /api/pickups
@@ -35,10 +36,20 @@ const createPickupRequest = asyncHandler(async (req,res) => {
         await donation.save();
 
         // Notify the donor
-        await Notification.create({
+        const notification = await Notification.create({
             userId: donation.donorId,
             message: `A new pickup request has been made for your donation: ${donation.foodName}.`
         });
+
+        // Real-time socket emissions with rich alert details for the donor dashboard
+        emitToUser(donation.donorId, "pickup:incoming", {
+            ...pickupRequest.toObject(),
+            foodName: donation.foodName,
+            quantity: donation.quantity,
+            ngoName: req.user.ngoName || req.user.name || "A verified NGO",
+        });
+        emitToUser(donation.donorId, "notification:new", notification);
+        emitToAll("donation:status_changed", { donationId: donation._id, status: "Requested" });
 
         res.status(201).json({
             message: "Pickup request submitted successfully",
@@ -115,10 +126,19 @@ const respondToPickupRequest = asyncHandler(async (req, res) => {
         await donation.save();
 
         // Notify the requesting NGO of the decision
-        await Notification.create({
+        const notification = await Notification.create({
             userId: pickupRequest.ngoId,
             message: `Your pickup request for "${donation.foodName}" was ${decision}.`
         });
+
+        // Real-time socket emissions
+        emitToUser(pickupRequest.ngoId, "pickup:responded", {
+            requestId: pickupRequest._id,
+            status: decision,
+            donationId: donation._id,
+        });
+        emitToUser(pickupRequest.ngoId, "notification:new", notification);
+        emitToAll("donation:status_changed", { donationId: donation._id, status: donation.status });
 
         res.status(200).json({ message: `Pickup request ${decision}` });
     });
@@ -182,6 +202,19 @@ const updatePickupStatus = asyncHandler(async (req, res) => {
         // Keep Donation status in sync
         donation.status = status;
         await donation.save();
+
+        // Broadcast real-time status update to both NGO and Donor, and platform-wide
+        emitToUser(pickupRequest.ngoId, "pickup:status_updated", {
+            requestId: pickupRequest._id,
+            status,
+            donationId: donation._id,
+        });
+        emitToUser(donation.donorId, "pickup:status_updated", {
+            requestId: pickupRequest._id,
+            status,
+            donationId: donation._id,
+        });
+        emitToAll("donation:status_changed", { donationId: donation._id, status });
 
         res.status(200).json({ message: `Pickup status updated to ${status}` });
     });

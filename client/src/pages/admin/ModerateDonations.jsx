@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import Loader from "../../components/common/Loader";
+import { useSocket } from "../../context/SocketContext";
 
 const STATUS_CLASSES = {
     Available: "bg-verified/15 text-verified",
@@ -11,6 +12,7 @@ const STATUS_CLASSES = {
 };
 
 export default function ModerateDonations() {
+    const { socket } = useSocket();
     const [donations, setDonations] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -23,6 +25,27 @@ export default function ModerateDonations() {
     useEffect(() => {
         fetchDonations();
     }, [statusFilter, page]);
+
+    // Real-time synchronization
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleRealtimeUpdate = () => {
+            fetchDonations();
+        };
+
+        socket.on("donation:created", handleRealtimeUpdate);
+        socket.on("donation:updated", handleRealtimeUpdate);
+        socket.on("donation:deleted", handleRealtimeUpdate);
+        socket.on("donation:status_changed", handleRealtimeUpdate);
+
+        return () => {
+            socket.off("donation:created", handleRealtimeUpdate);
+            socket.off("donation:updated", handleRealtimeUpdate);
+            socket.off("donation:deleted", handleRealtimeUpdate);
+            socket.off("donation:status_changed", handleRealtimeUpdate);
+        };
+    }, [socket, statusFilter, page]);
 
     const fetchDonations = async () => {
         try {

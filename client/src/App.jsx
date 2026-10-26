@@ -1,16 +1,19 @@
 import { AuthProvider } from "./context/AuthContext";
+import { SocketProvider } from "./context/SocketContext";
 import Navbar from "./components/common/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
     return (
         <AuthProvider>
-            <div className="min-h-screen bg-background font-sans">
-                <Navbar />
-                <main>
-                    <AppRoutes />
-                </main>
-            </div>
+            <SocketProvider>
+                <div className="min-h-screen bg-background font-sans">
+                    <Navbar />
+                    <main>
+                        <AppRoutes />
+                    </main>
+                </div>
+            </SocketProvider>
         </AuthProvider>
     );
 }

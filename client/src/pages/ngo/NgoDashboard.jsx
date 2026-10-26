@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api, { getErrorMessage } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
+import { useSocket } from "../../context/SocketContext";
 import Loader from "../../components/common/Loader";
 import StatusTracker from "../../components/pickup/StatusTracker";
 import "./ngo.css";
@@ -10,6 +11,7 @@ const STATUS_FILTERS = ["All", "Requested", "Accepted", "Rejected", "Picked Up",
 
 export default function NgoDashboard() {
     const { user } = useAuth();
+    const { socket } = useSocket();
     const [requests, setRequests] = useState([]);
     const [statusFilter, setStatusFilter] = useState("All");
     const [loading, setLoading] = useState(true);
@@ -31,6 +33,23 @@ export default function NgoDashboard() {
     useEffect(() => {
         fetchRequests();
     }, []);
+
+    // Real-time listener: updates status immediately when donor accepts, rejects, or marks picked up/completed
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleRealtimeStatus = () => {
+            fetchRequests();
+        };
+
+        socket.on("pickup:responded", handleRealtimeStatus);
+        socket.on("pickup:status_updated", handleRealtimeStatus);
+
+        return () => {
+            socket.off("pickup:responded", handleRealtimeStatus);
+            socket.off("pickup:status_updated", handleRealtimeStatus);
+        };
+    }, [socket]);
 
     const countBy = (status) => requests.filter((r) => r.status === status).length;
 

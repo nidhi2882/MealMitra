@@ -1,8 +1,10 @@
 // Entry point for MealMitra backend
 require("dotenv").config();
+const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const { initSocket } = require("./config/socket");
 
 const authRoutes = require("./routes/Authroutes");
 const adminRoutes = require("./routes/AdminRoutes");
@@ -13,6 +15,11 @@ const notificationRoutes = require("./routes/NotificationRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 
 const app = express();
+const server = http.createServer(app);
+
+// Initialize Socket.io
+initSocket(server);
+
 app.use(cors());
 app.use(express.json());
 
@@ -34,4 +41,4 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

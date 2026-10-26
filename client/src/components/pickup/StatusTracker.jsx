@@ -1,11 +1,13 @@
 import { useState } from "react";
 import api, { getErrorMessage } from "../../services/api";
+import PickupRouteMap from "../map/PickupRouteMap";
 
 const STEPS = ["Requested", "Accepted", "Picked Up", "Completed"];
 
 export default function StatusTracker({ request, onUpdated, canAdvance = true }) {
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState("");
+    const [showMap, setShowMap] = useState(false);
 
     if (request.status === "Rejected") {
         return <div className="mt-3 text-xs font-medium text-alert">This request was rejected.</div>;
@@ -61,14 +63,32 @@ export default function StatusTracker({ request, onUpdated, canAdvance = true })
 
             {error && <p className="text-xs text-alert mt-2">{error}</p>}
 
-            {canAdvance && nextStatus && (
+            {/* Action buttons & Map Toggle */}
+            <div className="flex items-center gap-2 mt-3">
                 <button
-                    onClick={handleAdvance}
-                    disabled={updating}
-                    className="mt-3 w-full px-4 py-2 rounded-lg bg-accent text-white text-xs font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+                    type="button"
+                    onClick={() => setShowMap((prev) => !prev)}
+                    className="flex-1 px-3 py-2 rounded-lg border border-line bg-surface/50 text-ink/80 text-xs font-medium hover:bg-surface hover:text-ink transition-colors flex items-center justify-center gap-1.5"
                 >
-                    {updating ? "Updating..." : `Mark as ${nextStatus}`}
+                    <span>{showMap ? "Hide Route Map ▲" : "📍 View Route Map ▼"}</span>
                 </button>
+
+                {canAdvance && nextStatus && (
+                    <button
+                        onClick={handleAdvance}
+                        disabled={updating}
+                        className="flex-1 px-4 py-2 rounded-lg bg-accent text-white text-xs font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+                    >
+                        {updating ? "Updating..." : `Mark as ${nextStatus}`}
+                    </button>
+                )}
+            </div>
+
+            {/* Embedded Live Map */}
+            {showMap && (
+                <div className="animate-fade-in">
+                    <PickupRouteMap request={request} />
+                </div>
             )}
         </div>
     );

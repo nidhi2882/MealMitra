@@ -10,6 +10,10 @@ const donationSchema = new mongoose.Schema(
         description: { type: String },
         expiryTime: { type: Date, required: true },
         pickupAddress: { type: String, required: true },
+        location: {
+            lat: { type: Number, default: 23.0225 }, // Defaults to city center (e.g. Ahmedabad)
+            lng: { type: Number, default: 72.5714 },
+        },
         status: {
             type: String,
             enum: ["Available", "Requested", "Accepted", "Picked Up", "Completed"],

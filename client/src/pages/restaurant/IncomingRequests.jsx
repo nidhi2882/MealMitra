@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api, { getErrorMessage } from "../../services/api";
 import Loader from "../../components/common/Loader";
 import StatusTracker from "../../components/pickup/StatusTracker";
+import { useSocket } from "../../context/SocketContext";
 
 const STATUS_CLASSES = {
     Requested: "bg-pending/15 text-pending border-pending/30",
@@ -11,7 +12,8 @@ const STATUS_CLASSES = {
     Completed: "bg-verified/20 text-verified border-verified/40",
 };
 
-export default function IncomingRequests() {
+export default function IncomingRequests({ onPendingCountChange }) {
+    const { socket } = useSocket();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -23,6 +25,8 @@ export default function IncomingRequests() {
         try {
             const { data } = await api.get("/pickups/incoming");
             setRequests(data);
+            const pending = data.filter((r) => r.status === "Requested").length;
+            onPendingCountChange?.(pending);
         } catch (err) {
             setError(getErrorMessage(err));
         } finally {
@@ -33,6 +37,23 @@ export default function IncomingRequests() {
     useEffect(() => {
         fetchRequests();
     }, []);
+
+    // Real-time listener for new incoming pickup requests or status changes
+    useEffect(() => {
+        if (!socket) return;
+
+        const handlePickupChange = () => {
+            fetchRequests();
+        };
+
+        socket.on("pickup:incoming", handlePickupChange);
+        socket.on("pickup:status_updated", handlePickupChange);
+
+        return () => {
+            socket.off("pickup:incoming", handlePickupChange);
+            socket.off("pickup:status_updated", handlePickupChange);
+        };
+    }, [socket]);
 
     const handleRespond = async (id, decision) => {
         setActingId(id);

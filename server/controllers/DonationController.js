@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Donation = require("../models/Donation");
+const { emitToAll } = require("../config/socket");
 
 //Only restaurants and donors can create/manage donations
 
@@ -53,7 +54,7 @@ const browseDonations = asyncHandler(async (req,res) => {
 // @route   POST /api/donations
 // @access  Private (Restaurant / EventOrganizer only)
 const createDonation = asyncHandler(async (req,res) => {
-        const {foodName,foodType,quantity,description,expiryTime,pickupAddress} = req.body;
+        const {foodName,foodType,quantity,description,expiryTime,pickupAddress,location} = req.body;
         if(!foodName || !foodType || !quantity || !expiryTime || !pickupAddress){
             return res.status(400).json({
                 message: "foodName, foodType, quantity, expiryTime, and pickupAddress are required.",
@@ -62,7 +63,7 @@ const createDonation = asyncHandler(async (req,res) => {
         if (new Date(expiryTime) <= new Date()) {
             return res.status(400).json({ message: "expiryTime must be in the future." });
         }
-        const donation = await Donation.create({
+        const donationData = {
             donorId: req.user._id, // whoever is logged in — from `protect` middleware
             foodName,
             foodType,
@@ -70,8 +71,16 @@ const createDonation = asyncHandler(async (req,res) => {
             description,
             expiryTime,
             pickupAddress,
-            // status defaults to "Available" per the schema
-        });
+        };
+        if (location && typeof location.lat === "number" && typeof location.lng === "number") {
+            donationData.location = location;
+        }
+
+        const donation = await Donation.create(donationData);
+
+        // Broadcast real-time event to all connected users
+        emitToAll("donation:created", donation);
+
         res.status(201).json({
             message: "Donation listed successfully",
             donationId: donation._id,
@@ -101,7 +110,7 @@ const updateDonation = asyncHandler(async (req, res) => {
 
         // Only allow these specific fields to be changed — never let the request
         // body overwrite donorId or status directly through this route.
-        const allowedFields = ["foodName", "foodType", "quantity", "description", "expiryTime", "pickupAddress"];
+        const allowedFields = ["foodName", "foodType", "quantity", "description", "expiryTime", "pickupAddress", "location"];
         allowedFields.forEach((field) => {
             if (req.body[field] !== undefined) {
                 donation[field] = req.body[field];
@@ -109,6 +118,9 @@ const updateDonation = asyncHandler(async (req, res) => {
         });
 
         await donation.save();
+
+        // Broadcast real-time update event
+        emitToAll("donation:updated", donation);
 
         res.status(200).json({ message: "Donation updated successfully" });
     });
@@ -133,6 +145,9 @@ const deleteDonation = asyncHandler(async (req, res) => {
         }
 
         await donation.deleteOne();
+
+        // Broadcast real-time deletion event
+        emitToAll("donation:deleted", { id: req.params.id });
 
         res.status(200).json({ message: "Donation removed successfully" });
     });

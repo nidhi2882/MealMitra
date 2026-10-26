@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import api, { getErrorMessage } from "../../services/api";
 import NotificationList from "./NotificationList";
+import { useSocket } from "../../context/SocketContext";
 
 export default function NotificationBell() {
+    const { socket } = useSocket();
     const [notifications, setNotifications] = useState([]);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -22,13 +24,31 @@ export default function NotificationBell() {
         }
     };
 
-    // Initial load, then refresh every 30s so the badge stays current
-    // even if the user never opens the dropdown.
+    // Initial load and backup polling
     useEffect(() => {
         fetchNotifications();
-        const interval = setInterval(fetchNotifications, 30000);
+        const interval = setInterval(fetchNotifications, 60000);
         return () => clearInterval(interval);
     }, []);
+
+    // Instant real-time push notification via WebSocket
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleNewNotification = (notif) => {
+            if (notif) {
+                setNotifications((prev) => [notif, ...prev]);
+            } else {
+                fetchNotifications();
+            }
+        };
+
+        socket.on("notification:new", handleNewNotification);
+
+        return () => {
+            socket.off("notification:new", handleNewNotification);
+        };
+    }, [socket]);
 
     // Close the dropdown on outside click
     useEffect(() => {

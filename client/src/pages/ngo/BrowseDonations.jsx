@@ -1,19 +1,23 @@
 import { useEffect, useState, useCallback } from "react";
 import api, { getErrorMessage } from "../../services/api";
 import DonationCard from "../../components/donation/DonationCard";
+import DonationMap from "../../components/map/DonationMap";
 import RequestPickupModal from "../../components/pickup/RequestPickupModal";
 import Loader from "../../components/common/Loader";
 import { useAuth } from "../../context/AuthContext";
+import { useSocket } from "../../context/SocketContext";
 import "./ngo.css";
 
 const EMPTY_FILTERS = { foodType: "", location: "", minQuantity: "", expiryBefore: "" };
 
 export default function BrowseDonations() {
     const { user } = useAuth();
+    const { socket } = useSocket();
     const [donations, setDonations] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState(EMPTY_FILTERS);
+    const [viewMode, setViewMode] = useState("grid"); // "grid" | "map"
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selected, setSelected] = useState(null); // donation being requested
@@ -48,6 +52,27 @@ export default function BrowseDonations() {
         fetchDonations({ ...filters, page });
     }, [page, fetchDonations]);
 
+    // Real-time synchronization: refresh when any donation is posted, updated, or claimed
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleRealtimeUpdate = () => {
+            fetchDonations({ ...filters, page });
+        };
+
+        socket.on("donation:created", handleRealtimeUpdate);
+        socket.on("donation:updated", handleRealtimeUpdate);
+        socket.on("donation:deleted", handleRealtimeUpdate);
+        socket.on("donation:status_changed", handleRealtimeUpdate);
+
+        return () => {
+            socket.off("donation:created", handleRealtimeUpdate);
+            socket.off("donation:updated", handleRealtimeUpdate);
+            socket.off("donation:deleted", handleRealtimeUpdate);
+            socket.off("donation:status_changed", handleRealtimeUpdate);
+        };
+    }, [socket, fetchDonations, filters, page]);
+
     const handleChange = (e) => setFilters({ ...filters, [e.target.name]: e.target.value });
 
     const handleApply = (e) => {
@@ -71,7 +96,33 @@ export default function BrowseDonations() {
 
     return (
         <div className="page">
-            <h1>Browse available food</h1>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-2">
+                <h1 className="mb-0">Browse available food</h1>
+                <div className="flex items-center gap-1.5 bg-surface/80 p-1.5 rounded-2xl border border-line w-fit">
+                    <button
+                        type="button"
+                        onClick={() => setViewMode("grid")}
+                        className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 ${
+                            viewMode === "grid"
+                                ? "bg-white text-ink shadow-sm"
+                                : "text-ink/60 hover:text-ink hover:bg-white/40"
+                        }`}
+                    >
+                        <span>▦ Grid View</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setViewMode("map")}
+                        className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 ${
+                            viewMode === "map"
+                                ? "bg-white text-ink shadow-sm text-accent"
+                                : "text-ink/60 hover:text-ink hover:bg-white/40"
+                        }`}
+                    >
+                        <span>🗺️ Map View</span>
+                    </button>
+                </div>
+            </div>
 
             <form className="filter-bar" onSubmit={handleApply}>
                 <input
@@ -116,6 +167,13 @@ export default function BrowseDonations() {
                 <Loader />
             ) : donations.length === 0 ? (
                 <p className="muted">No available donations match your filters.</p>
+            ) : viewMode === "map" ? (
+                <div className="animate-fade-in mb-6">
+                    <DonationMap
+                        donations={donations}
+                        onRequest={(d) => setSelected(d)}
+                    />
+                </div>
             ) : (
                 <div className="card-grid">
                     {donations.map((donation) => (

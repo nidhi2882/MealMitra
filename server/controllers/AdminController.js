@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Donation = require("../models/Donation");
 const PickupRequest = require("../models/PickupRequest");
 const Notification = require("../models/Notification");
+const { emitToAll, emitToUser } = require("../config/socket");
 // @desc    List all users, optionally filtered by role and/or status
 // @route   GET /api/admin/users
 // @route   GET /api/admin/users?role=Restaurant
@@ -139,6 +140,9 @@ const removeDonation = asyncHandler(async (req, res) => {
         // Admin override — no ownership/status restriction, unlike the
         // owner-only deleteDonation in donationController
         await donation.deleteOne();
+
+        // Broadcast real-time deletion
+        emitToAll("donation:deleted", { id: req.params.id });
 
         res.status(200).json({ message: "Donation removed by admin" });
     });

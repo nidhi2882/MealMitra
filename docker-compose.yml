@@ -1,0 +1,23 @@
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: mealmitra-server
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: mealmitra-client
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - server

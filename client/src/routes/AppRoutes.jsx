@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 import Register from "../pages/auth/Register";
 import Login from "../pages/auth/Login";
 import Profile from "../pages/auth/Profile";
@@ -12,25 +13,31 @@ import NgoDashboard from "../pages/ngo/NgoDashboard";
 import AdminReports from "../pages/admin/AdminReports";
 import ModerateDonations from "../pages/admin/ModerateDonations";
 import Home from "../pages/Home";
+import NotFound from "../pages/NotFound";
 
-// --- Placeholder pages for Jiya's upcoming topics (Topics 5, 6, 7, 8) ---
-function Placeholder({ title }) {
-    return (
-        <div className="max-w-3xl mx-auto px-5 py-16 text-center">
-            <h1 className="font-display text-3xl text-ink mb-2">{title}</h1>
-            <p className="text-ink/60">This page will be implemented in Jiya's topics.</p>
-        </div>
-    );
-}
-
-// Removed inline Home component
 export default function AppRoutes() {
     return (
         <Routes>
             {/* Public */}
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            
+            {/* Guest-only routes (redirects authenticated users to their dashboard) */}
+            <Route
+                path="/login"
+                element={
+                    <PublicRoute>
+                        <Login />
+                    </PublicRoute>
+                }
+            />
+            <Route
+                path="/register"
+                element={
+                    <PublicRoute>
+                        <Register />
+                    </PublicRoute>
+                }
+            />
 
             {/* Any authenticated user */}
             <Route
@@ -60,7 +67,7 @@ export default function AppRoutes() {
                 }
             />
 
-            {/* NGO only (Jiya's Topic 5) */}
+            {/* NGO only */}
             <Route
                 path="/browse"
                 element={
@@ -78,7 +85,7 @@ export default function AppRoutes() {
                 }
             />
 
-            {/* Admin only (Nidhi's Topic 2 & Jiya's Topic 8) */}
+            {/* Admin only */}
             <Route
                 path="/admin/pending"
                 element={
@@ -112,8 +119,8 @@ export default function AppRoutes() {
                 }
             />
 
-            {/* Fallback */}
-            <Route path="*" element={<Placeholder title="Page not found" />} />
+            {/* Fallback Catch-All 404 */}
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }
